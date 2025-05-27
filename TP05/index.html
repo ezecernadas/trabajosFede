@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body id="body">
+    <article class="tp1">
+        <h1>Punto 1</h1>
+        <input type="text" id="nombre" required>
+        <button id="mostrar">Buscar</button>
+        <div id="cardContainerTp1"></div>
+    </article>
+
+    <article class="tp2">
+        <h1>Punto 2</h1>
+        <button id="generarTp2">Generar 5 pokemones aleatorios</button>
+        <div id="cardContainerTp2"></div>
+    </article>
+
+    <article class="tp3">
+        <h1>Punto 3</h1>
+        <div class="inputContainer">
+            <input type="text" id="tp3Pkm1" required placeholder="Pokemon 1">
+            <input type="text" id="tp3Pkm2" required placeholder="Pokemon 2">
+        </div>
+        <button id="generarTp3">Comparar 2 pokemones</button>
+        <div id="cardContainerTp3"></div>
+    </article>
+
+    <article class="tp4">
+        <h1>Punto 4</h1>
+        <select name="" id="tp4Select">
+            <option value="" selected>Seleccione un tipo.</option>
+            <option value="fire">Fuego</option>
+            <option value="water">Agua</option>
+            <option value="electric">Electrico</option>
+            <option value="grass">Planta</option>
+        </select>
+        <input type="number" min="1" max="1025" id="cantidadTp4">
+        <button id="generarTp4">Buscar pokemones</button>
+        <div id="cardContainerTp4"></div>
+    </article>
+</body>
+<script src="./index.js"></script>
+</html>

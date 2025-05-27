@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Buscar juegos</title>
+</head>
+<style>
+    *{
+        padding: 0;
+        margin: 0;
+        box-sizing: border-box;
+    }
+
+    #searchContainer {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1.5em;
+        padding: 2em;
+    }
+
+    .gameCard {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        background-color: #f2f2f2;
+        padding: 1em;
+        width: 370px;
+        border-radius: 12px;
+        border: solid 1px darkgray;
+    }
+
+    .gameCard > img{
+        width: 100%;
+    }
+
+    .searchBox{
+        width: 100%;
+        padding: 1em;
+    }
+    input{
+        padding: .3em .4em;
+    }
+</style>
+<body id="body">
+    <div class="searchBox">
+        <form id="formBusqueda">
+            <legend>Buscar juego:</legend>
+            <legend>(Se mostraran solo 5 resultados)</legend>
+            <input type="text" name="gameName" id="">
+            <input type="submit" value="Buscar">
+        </form>
+    </div>
+    <div id="searchContainer"></div>
+</body>
+<script src="index.js"></script>
+</html>
