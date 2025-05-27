@@ -223,16 +223,6 @@ async function obtenerPokemonesPorHabilidad(habilidad) {
     return datos.pokemon.map(p => p.pokemon.name);
 }
 
-//Punto 4
-function advinarPokemon(buscado, nombre, idSpawn) {
-    obtenerDatosPokemon(buscado).then(pokemon => {
-        if (pokemon) {
-            document.getElementById('cardContainerPunto4').innerHTML = '';
-            mostrarTarjetaPokemon(pokemon, idSpawn);
-        }
-    });
-}
-
 //Punto 5
 async function obtenerPokemonesPorGeneracion(generacion, idSpawn) {
     try {
@@ -315,15 +305,10 @@ document.getElementById('pnt4Adivinar').addEventListener('click',()=>{
         return;
     }
 
-    if (buscado.toLowerCase() !== nombre.toLowerCase()) {
-        mostrarTarjetaPokemonError("cardContainerPunto4");
-        return;
-    }else{
+    if (buscado == nombre) {
         document.getElementById('cardContainerPunto4').innerHTML = '';
         mostrarTarjetaPokemon(datosPokemonRandom, "cardContainerPunto4");
     }
-
-    advinarPokemon(buscado, numeroRandom, "cardContainerPunto4");
 });
 
 document.getElementById('pnt5Buscar').addEventListener('click', () => {
