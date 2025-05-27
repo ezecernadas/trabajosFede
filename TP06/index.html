@@ -15,9 +15,9 @@
 
     body {
         display: flex;
+        flex-direction: column;
         justify-content: center;
         align-items:center;
-        flex-wrap: wrap;
         gap: 2em;
         padding: 1em;
     }
@@ -42,6 +42,18 @@
         justify-content: center;
     }
 
+    #cardContainerPunto3 {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    #cardContainerPunto5{
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
     img {
         width: 100%;
         object-fit: cover;
@@ -60,10 +72,27 @@
         flex-direction: column;
         align-items: center;
         gap: .5em;
-        min-height: 452.5px;
-        min-width: 835px;
         border: solid 1px black;
         padding: 1em;
+    }
+
+    #punto1{
+        min-width: 835px;
+        min-height: 452.5px;
+    }
+
+    #punto2{
+        min-width: 488px;
+        min-height: 488px;
+    }
+
+    #punto3, #punto5{
+        width: 1150px;
+    }
+
+    #punto4{
+        min-width: 301px;
+        min-height: 434px;
     }
 
     input, select{
@@ -76,11 +105,55 @@
     }
 </style>
 <body>
-    <article>
+    <article id="punto1">
         <h1>Punto 1</h1>
+        <legend>Buscar la linea evolutiva</legend>
         <input type="text" id="nombre" required>
         <button id="mostrar">Buscar</button>
         <div id="cardContainerPunto1"></div>
+    </article>
+    <article id="punto2">
+        <h1>Punto 2</h1>
+        <legend>Pelea de pokemones</legend>
+        <legend>Ingrese 2 nombres</legend>
+        <div style="display: flex; gap: .5em;">
+            <input type="text" id="pnt2Pokemon1" placeholder="Pokemon 1" required>
+            <input type="text" id="pnt2Pokemon2" placeholder="Pokemon 2" required>
+        </div>
+        <button id="ptn2Batalla">Buscar</button>
+        <div id="cardContainerPunto2"></div>
+    </article>
+    <article id="punto3">
+        <h1>Punto 3</h1>
+        <legend>Buscar pokemones por habilidad</legend>
+        <input type="text" id="pnt3Habilidad" required>
+        <button id="ptn3Buscar">Buscar</button>
+        <div id="cardContainerPunto3"></div>
+    </article>
+    <article id="punto4">
+        <h1>Punto 4</h1>
+        <legend>Adivinar pokemon</legend>
+        <input type="text" id="pnt4Nombre" required>
+        <button id="pnt4Adivinar">Buscar</button>
+        <div id="cardContainerPunto4"></div>
+    </article>
+    <article id="punto5">
+        <h1>Punto 5</h1>
+        <legend>Buscar pokemones por generacion</legend>
+        <select name="" id="generacion">
+            <option value="" selected>Seleccione una generacion (1-9)</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+            <option value="6">6</option>
+            <option value="7">7</option>
+            <option value="8">8</option>
+            <option value="9">9</option>
+        </select>
+        <button id="pnt5Buscar">Buscar</button>
+        <div id="cardContainerPunto5"></div>
     </article>
 </body>
 <script src="index.js"></script>

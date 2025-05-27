@@ -1,6 +1,6 @@
 /**
  * Muestra una tarjeta de un Pokémon en el contenedor especificado.
- *
+ * koulen
  * Si los datos del Pokémon son nulos, muestra un mensaje de error.
  * De lo contrario, crea una tarjeta con la imagen del Pokémon y
  * su nombre.
@@ -30,7 +30,7 @@ function mostrarTarjetaPokemon(pokemonData, containerId) {
 
     // Nombre del Pokémon
     const pokemonName = document.createElement("legend");
-    pokemonName.textContent = "Nombre: " + pokemonData.name;
+    pokemonName.textContent = pokemonData.name;
 
     // Añadir elementos a la tarjeta
     pokemonCard.appendChild(pokemonImage);
@@ -60,6 +60,40 @@ function mostrarTarjetaPokemonError(containerId) {
     errorMessage.textContent = "No se encontro el Pokémon, revise el nombre escrito.";
     errorCard.appendChild(errorMessage);
     container.appendChild(errorCard);
+}
+
+function mostrarTarjetaMisteriosa(pokemonData, containerId) {
+    const container = document.getElementById(containerId);
+
+    // Si hubo error
+    if (!pokemonData) {
+        return;
+    }
+
+    // Crear tarjeta con datos válidos
+    const pokemonCard = document.createElement("div");
+    pokemonCard.classList.add("card");
+
+    // Imagen del Pokémon
+    const pokemonImage = document.createElement("img");
+    pokemonImage.src = pokemonData.sprites.front_default;
+    pokemonImage.setAttribute("style", "filter: brightness(0);");
+
+    // Contenedor de datos
+    const dataContainer = document.createElement("div");
+    dataContainer.classList.add("data");
+
+    // Nombre del Pokémon
+    const pokemonName = document.createElement("legend");
+    pokemonName.textContent = "?";
+
+    // Añadir elementos a la tarjeta
+    pokemonCard.appendChild(pokemonImage);
+    pokemonCard.appendChild(dataContainer);
+    dataContainer.appendChild(pokemonName);
+
+    // Añadir tarjeta al contenedor
+    container.appendChild(pokemonCard);
 }
 
 /**
@@ -153,10 +187,148 @@ async function obtenerLineaEvolutiva(idPoke) {
     }
 }
 
+//Punto 2
+async function pelea(pokemon1,pokemon2){
+    const stats1 = await obtenerStats(pokemon1);
+    const stats2 = await obtenerStats(pokemon2);
+    const power1 = stats1.attack + stats1.defense + stats1.speed;
+    const power2 = stats2.attack + stats2.defense + stats2.speed;
+    if (power1 > power2) {
+        return pokemon1;
+    } else {
+        return pokemon2;
+    }
+}
+
+/**
+ * Obtiene los stats de un Pokémon como un objeto asociativo.
+ * @param {string} pokemon - Nombre del Pokémon cuyos stats se van a obtener.
+ * @returns {Promise<Object | null>} - Promesa que resuelve con un objeto asociativo
+ * con los stats del Pokémon, o null si ocurre un error.
+ */
+async function obtenerStats(pokemon){
+    const pokemonData = await obtenerDatosPokemon(pokemon);
+    const pokemonStatsAsociativo = pokemonData.stats.reduce((acumulado, stat) => ({ ...acumulado, [stat.stat.name]: stat.base_stat }), {});
+    return pokemonStatsAsociativo;
+}
+
+//Punto 3
+async function obtenerPokemonesPorHabilidad(habilidad) {
+    const pokemones = await fetch(`https://pokeapi.co/api/v2/ability/${habilidad}`);
+    if (!pokemones.ok) {
+        console.error("Error al obtener los Pokémon por habilidad:", habilidad);
+        return [];
+    }
+    const datos = await pokemones.json();
+    return datos.pokemon.map(p => p.pokemon.name);
+}
+
+//Punto 4
+function advinarPokemon(buscado, nombre, idSpawn) {
+    obtenerDatosPokemon(buscado).then(pokemon => {
+        if (pokemon) {
+            document.getElementById('cardContainerPunto4').innerHTML = '';
+            mostrarTarjetaPokemon(pokemon, idSpawn);
+        }
+    });
+}
+
+//Punto 5
+async function obtenerPokemonesPorGeneracion(generacion, idSpawn) {
+    try {
+        const respuesta = await fetch(`https://pokeapi.co/api/v2/generation/${generacion}`);
+        if (!respuesta.ok) {
+            throw new Error("Error al obtener los Pokémon por generación");
+        }
+        const datos = await respuesta.json();
+        const pokemones = datos.pokemon_species.map(p => p.name);
+
+        document.getElementById(idSpawn).innerHTML = '';
+        for (const nombre of pokemones) {
+            const pokemon = await obtenerDatosPokemon(nombre);
+            mostrarTarjetaPokemon(pokemon, idSpawn);
+        }
+    } catch (error) {
+        console.error(error.message);
+    }
+}
+
 document.getElementById('mostrar').addEventListener('click',()=>{
     document.getElementById('cardContainerPunto1').innerHTML = '';
 
     const nombre = document.getElementById('nombre').value;
     
     buscarYMostrarLineaEvolutiva(nombre, "cardContainerPunto1");
+});
+
+document.getElementById('ptn2Batalla').addEventListener('click',()=>{
+    document.getElementById('cardContainerPunto2').innerHTML = '';
+
+    const pokemon1 = document.getElementById('pnt2Pokemon1').value;
+    const pokemon2 = document.getElementById('pnt2Pokemon2').value;
+    
+    pelea(pokemon1, pokemon2).then(async ganador => {
+        ganador = await obtenerDatosPokemon(ganador);
+        if (!ganador) {
+            mostrarTarjetaPokemonError("cardContainerPunto2");
+            return;
+        }
+        mostrarTarjetaPokemon(ganador, "cardContainerPunto2");
+    });
+    
+    
+});
+
+document.getElementById('ptn3Buscar').addEventListener('click',()=>{
+    document.getElementById('cardContainerPunto3').innerHTML = '';
+
+    const habilidad = document.getElementById('pnt3Habilidad').value;
+    
+    obtenerPokemonesPorHabilidad(habilidad).then(pokemones => {
+        pokemones.forEach(async nombrePokemon => {
+            const pokemon = await obtenerDatosPokemon(nombrePokemon);
+            if (pokemon) {
+                mostrarTarjetaPokemon(pokemon, "cardContainerPunto3");
+            } else {
+                mostrarTarjetaPokemonError("cardContainerPunto3");
+            }
+        }
+        );
+    });
+});
+
+const numeroRandom = Math.floor(Math.random() * 1025) + 1;
+let datosPokemonRandom;
+
+obtenerDatosPokemon(numeroRandom).then(datos => {
+    datosPokemonRandom = datos;
+    mostrarTarjetaMisteriosa(datosPokemonRandom, "cardContainerPunto4");
+});
+
+
+document.getElementById('pnt4Adivinar').addEventListener('click',()=>{
+    const buscado = document.getElementById('pnt4Nombre').value;
+    const nombre = datosPokemonRandom.name;
+
+    if (!buscado || !nombre) {
+        mostrarTarjetaPokemonError("cardContainerPunto4");
+        return;
+    }
+
+    if (buscado.toLowerCase() !== nombre.toLowerCase()) {
+        mostrarTarjetaPokemonError("cardContainerPunto4");
+        return;
+    }else{
+        document.getElementById('cardContainerPunto4').innerHTML = '';
+        mostrarTarjetaPokemon(datosPokemonRandom, "cardContainerPunto4");
+    }
+
+    advinarPokemon(buscado, numeroRandom, "cardContainerPunto4");
+});
+
+document.getElementById('pnt5Buscar').addEventListener('click', () => {
+    const generacion = document.getElementById('generacion').value;
+    if (generacion) {
+        obtenerPokemonesPorGeneracion(generacion, 'cardContainerPunto5');
+    }
 });
