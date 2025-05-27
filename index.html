@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Seleccion de Trabajos</title>
+    <style>
+        body {
+            background: #f4f6fa;
+            font-family: 'Segoe UI', Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .tpCard {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 8px;
+            background: #fff;
+            border-radius: 16px;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+            padding: 24px 32px;
+            text-decoration: none;
+            color: #222;
+            transition: box-shadow 0.2s, transform 0.2s;
+            min-width: 220px;
+        }
+        .tpCard:hover {
+            box-shadow: 0 8px 24px rgba(0,0,0,0.16);
+            transform: translateY(-4px) scale(1.03);
+        }
+        .tpCard legend:first-child {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #1976d2;
+            margin-bottom: 4px;
+        }
+        .tpCard legend:last-child {
+            font-size: 1rem;
+            color: #555;
+        }
+    </style>
+</head>
+<body>
+    <a href="" class="tpCard">
+        <legend>TP - 03</legend>
+        <legend>Nombre TP</legend>
+    </a>
+</body>
+</html>
