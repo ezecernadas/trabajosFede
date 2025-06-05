@@ -1,9 +1,10 @@
 const express = require('express');
 const mysql = require ('mysql2');
 const api = express();
+const checkAPK = require('./middleware/apiAuth');
 
 require('dotenv').config();
-api.use(express.json);
+api.use(checkAPK); // Middleware para verificar la API Key
 
 api.use(express.json());
 const db = mysql.createConnection({
@@ -138,7 +139,7 @@ api.post('/caso2',(request, result)=>{
 
         result.json(resultado);
     });
-});
+}); 
 
 const PORT = 3000;
 api.listen(PORT,()=>{
