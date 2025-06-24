@@ -1,20 +1,3 @@
-const express = require('express');
-const mysql = require ('mysql2');
-const api = express();
-const checkAPK = require('./middleware/apiAuth');
-
-require('dotenv').config();
-api.use(checkAPK); // Middleware para verificar la API Key
-
-api.use(express.json());
-const db = mysql.createConnection({
-    host :process.env.DB_HOST,
-    user : process.env.DB_USER,
-    password : process.env.DB_PASSWORD,
-    database : process.env.DB_NAME,
-    connectTimeout : 10000,
-    keepAliveInitialDelay: 10000,
-});
 
 db.connect((error)=>{
     if(error){
@@ -141,7 +124,3 @@ api.post('/caso2',(request, result)=>{
     });
 }); 
 
-const PORT = 3000;
-api.listen(PORT,()=>{
-    console.log("Puerto: ", PORT);
-})
