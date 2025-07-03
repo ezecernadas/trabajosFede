@@ -9,8 +9,8 @@ const continentsRoutes = require('./routes/continentsRoutes.js');
 
 api.use(express.json());
 api.use(checkAPK);
-api.use('/api/country', countryRoutes);
-api.use('/api/language', languageRoutes);
+api.use('/api/countries', countryRoutes);
+api.use('/api/languages', languageRoutes);
 api.use('/api/regions', regionsRoutes);
 api.use('/api/continents', continentsRoutes);
 

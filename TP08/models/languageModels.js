@@ -10,6 +10,12 @@ exports.getAllWithCountriesOficialLanguage = async () => {
     return result;
 }
 
+exports.getLanguagesByContinent = async (continent) => {
+    const [result] = await db.query('SELECT DISTINCT languages.language AS name FROM countries JOIN regions ON countries.region_id = regions.region_id JOIN continents ON regions.continent_id = continents.continent_id JOIN country_languages ON countries.country_id = country_languages.country_id JOIN languages ON country_languages.language_id = languages.language_id WHERE continents.name = ?;', [continent]);
+    return result;
+}
+
+
 exports.insert = async (language) => {
     const [result] = await db.query('INSERT INTO `languages`(`language`) VALUES (?)', [language]);
     return result;

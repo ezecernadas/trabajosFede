@@ -1,26 +1,8 @@
 const country = require('../models/countryModels.js');
 
-exports.getCountry = async (req, res) => {
+exports.getAll = async (req, res) => {
     try {
-        const { regions, continents, languages, stats, area } = req.query;
-        let data;
-
-        if (languages === 'true' && regions === 'true') {
-            data = await country.getAllWithLanguageAndRegions();
-        } else if (continents === 'true') {
-            data = await country.getAllWithContinent();
-        } else if (languages === 'true') {
-            data = await country.getAllWithLanguages();
-        } else if (regions === 'true') {
-            data = await country.getAllWithRegions();
-        } else if (stats === 'true') {
-            data = await country.getAllWithStats();
-        } else if (area === 'true') {
-            data = await country.getAllWithRegionAndArea();
-        } else {
-            data = await country.getAll();
-        }
-
+        const data = await country.getAll();
         res.status(200).json(data);
     } catch (error) {
         console.error("Error al obtener los paises:", error);
@@ -28,33 +10,73 @@ exports.getCountry = async (req, res) => {
     }
 }
 
-exports.getCountriesWithOfficialLanguageAndRegion = async (req, res) => {
+exports.LanguageAndRegions = async (req, res) => {
     try {
-        const data = await country.getAllWithOfficialLanguageAndRegion();
+        const data = await country.getAllWithLanguageAndRegions();
         res.status(200).json(data);
     } catch (error) {
-        console.error("Error al obtener los países con idioma oficial y región:", error);
-        res.status(500).json({ error: "Error al obtener los países con idioma oficial y región" });
+        console.error("Error al obtener los paises con idiomas y regiones:", error);
+        res.status(500).json({ error: "Error al obtener los paises con idiomas y regiones" });
     }
 }
 
-exports.getCountriesWithRegion = async (req, res) => {
-    try {
-        const data = await country.getAllWithRegion();
-        res.status(200).json(data);
-    } catch (error) {
-        console.error("Error al obtener los paises con su region:", error);
-        res.status(500).json({ error: "Error al obtener los paises con su region" });
-    }
-}
-
-exports.getCountriesWithContinent = async (req, res) => {
+exports.Continent = async (req, res) => {
     try {
         const data = await country.getAllWithContinent();
         res.status(200).json(data);
     } catch (error) {
-        console.error("Error al obtener los paises con su continente:", error);
-        res.status(500).json({ error: "Error al obtener los paises con su continente" });
+        console.error("Error al obtener los paises con continentes:", error);
+        res.status(500).json({ error: "Error al obtener los paises con continentes" });
+    }
+}
+
+exports.Regions = async (req, res) => {
+    try {
+        const data = await country.getAllWithRegions();
+        res.status(200).json(data);
+    } catch (error) {
+        console.error("Error al obtener los paises con regiones:", error);
+        res.status(500).json({ error: "Error al obtener los paises con regiones" });
+    }
+}
+
+exports.languages = async (req, res) => {
+    try {
+        const data = await country.getAllWithLanguages();
+        res.status(200).json(data);
+    } catch (error) {
+        console.error("Error al obtener los paises con sus idiomas:", error);
+        res.status(500).json({ error: "Error al obtener los paises con sus idiomas" });
+    }
+}
+
+exports.stats = async (req, res) => {
+    try {
+        const data = await country.getAllWithStats();
+        res.status(200).json(data);
+    } catch (error) {
+        console.error("Error al obtener las estadísticas de los paises:", error);
+        res.status(500).json({ error: "Error al obtener las estadísticas de los paises" });
+    }
+}
+
+exports.area = async (req, res) => {
+    try {
+        const data = await country.getAllWithRegionAndArea();
+        res.status(200).json(data);
+    } catch (error) {
+        console.error("Error al obtener los paises con sus regiones y áreas:", error);
+        res.status(500).json({ error: "Error al obtener los paises con sus regiones y áreas" });
+    }
+}
+
+exports.national_day = async (req, res) => {
+    try {
+        const data = await country.getCountriesWithNationalDay();
+        res.status(200).json(data);
+    } catch (error) {
+        console.error("Error al obtener los paises con su día nacional:", error);
+        res.status(500).json({ error: "Error al obtener los paises con su día nacional" });
     }
 }
 
