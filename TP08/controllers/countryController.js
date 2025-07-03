@@ -10,6 +10,26 @@ exports.getCountry = async (req, res)=> {
     }
 }
 
+exports.getCountriesWithRegion = async (req, res) => {
+    try {
+        const data = await country.getAllWithRegion();
+        res.status(200).json(data);
+    } catch (error) {
+        console.error("Error al obtener los paises con su region:", error);
+        res.status(500).json({ error: "Error al obtener los paises con su region" });
+    }
+}
+
+exports.getCountriesWithContinent = async (req, res) => {
+    try {
+        const data = await country.getAllWithContinent();
+        res.status(200).json(data);
+    } catch (error) {
+        console.error("Error al obtener los paises con su continente:", error);
+        res.status(500).json({ error: "Error al obtener los paises con su continente" });
+    }
+}
+
 exports.insert = async (req, res) => {
     const { name, area, national_day, country_code2, country_code3, region_id } = req.body;
     try {

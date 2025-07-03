@@ -1,9 +1,21 @@
 const db = require('../config/db.js');
 
 exports.getAll = async () => {
-    const [rows] = await db.query('SELECT * FROM `countries`');
-    return rows;
+    const [result] = await db.query('SELECT * FROM `countries`');
+    return result;
 }
+
+exports.getAllWithRegion = async () => {
+    const [result] = await db.query('SELECT countries.name AS country, regions.name AS region FROM `countries` INNER JOIN `regions` ON countries.region_id = regions.region_id;');
+    return result;
+}
+
+exports.getAllWithContinent = async () => {
+    const [result] = await db.query('SELECT countries.name AS country, continents.name AS continent FROM `countries` INNER JOIN `regions` ON countries.region_id = regions.region_id INNER JOIN `continents` ON regions.continent_id = continents.continent_id;');
+    return result;
+}
+
+
 
 exports.insert = async (name, area, national_day, country_code2, country_code3, region_id) => {
     const [result] = await db.query('INSERT INTO `countries` (name, area, national_day, country_code2, country_code3, region_id) VALUES (?, ?, ?, ?, ?, ?)', [name, area, national_day, country_code2, country_code3, region_id]);
