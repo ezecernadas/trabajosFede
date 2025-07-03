@@ -1,12 +1,40 @@
 const country = require('../models/countryModels.js');
 
-exports.getCountry = async (req, res)=> {
+exports.getCountry = async (req, res) => {
     try {
-        const data = await country.getAll();
+        const { regions, continents, languages, stats, area } = req.query;
+        let data;
+
+        if (languages === 'true' && regions === 'true') {
+            data = await country.getAllWithLanguageAndRegions();
+        } else if (continents === 'true') {
+            data = await country.getAllWithContinent();
+        } else if (languages === 'true') {
+            data = await country.getAllWithLanguages();
+        } else if (regions === 'true') {
+            data = await country.getAllWithRegions();
+        } else if (stats === 'true') {
+            data = await country.getAllWithStats();
+        } else if (area === 'true') {
+            data = await country.getAllWithRegionAndArea();
+        } else {
+            data = await country.getAll();
+        }
+
         res.status(200).json(data);
     } catch (error) {
         console.error("Error al obtener los paises:", error);
         res.status(500).json({ error: "Error al obtener los paises" });
+    }
+}
+
+exports.getCountriesWithOfficialLanguageAndRegion = async (req, res) => {
+    try {
+        const data = await country.getAllWithOfficialLanguageAndRegion();
+        res.status(200).json(data);
+    } catch (error) {
+        console.error("Error al obtener los países con idioma oficial y región:", error);
+        res.status(500).json({ error: "Error al obtener los países con idioma oficial y región" });
     }
 }
 
