@@ -13,9 +13,4 @@ router.get('/get/all/national_day', countryController.national_day);
 
 router.post('/insert', countryController.insert);
 
-router.post('/insert/language', countryController.insertLanguage);
-
-router.delete('/delete/:idCountry/:year', countryController.deleteStats);
-router.put('/update/:idCountry/:year', countryController.updateStats);
-
 module.exports = router;

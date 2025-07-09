@@ -6,10 +6,12 @@ const countryRoutes = require('./routes/countryRoutes.js');
 const languageRoutes = require('./routes/languageRoutes.js');
 const regionsRoutes = require('./routes/regionsRoutes.js');
 const continentsRoutes = require('./routes/continentsRoutes.js');
+const countryLanguageRoutes = require('./routes/countryLanguageRoutes.js');
 
 api.use(express.json());
 api.use(checkAPK);
 api.use('/api/countries', countryRoutes);
+api.use('/api/country_languages', countryLanguageRoutes);
 api.use('/api/languages', languageRoutes);
 api.use('/api/regions', regionsRoutes);
 api.use('/api/continents', continentsRoutes);
