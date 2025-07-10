@@ -1,5 +1,10 @@
 const db = require('../config/db.js');
 
+exports.getById = async (id) => {
+    const [result] = await db.query('SELECT * FROM `continents` WHERE continent_id = ?', [id]);
+    return result;
+}
+
 exports.getAll = async () => {
     const [result] = await db.query('SELECT * FROM `continents`');
     return result;
@@ -12,5 +17,15 @@ exports.countRegions = async (id) => {
 
 exports.insert = async (name) => {
     const [result] = await db.query('INSERT INTO `continents` (name) VALUES (?)', [name]);
+    return result;
+}
+
+exports.update = async (continent_id, name) => {
+    const [result] = await db.query('UPDATE `continents` SET name = ? WHERE continent_id = ?', [name, continent_id]);
+    return result;
+}
+
+exports.delete = async (continent_id) => {
+    const [result] = await db.query('DELETE FROM `continents` WHERE continent_id = ?', [continent_id]);
     return result;
 }

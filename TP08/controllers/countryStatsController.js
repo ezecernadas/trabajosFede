@@ -1,10 +1,36 @@
 const stats = require('../models/countryStatsModels.js');
 
-exports.update = async (req, res) => {
+exports.getById = async (req, res) => {
+    const { country_id, year } = req.params;
     try {
-        const { idCountry, year } = req.params;
-        const stats = req.body;
-        const result = await stats.updateStats(idCountry, year, stats);
+        const result = await stats.getById(country_id, year);
+        res.status(200).json(result);
+    } catch (error) {
+        console.error("Error al obtener las estadísticas del país:", error);
+        res.status(500).json({ error: "Error al obtener las estadísticas del país" });
+    }
+}
+
+exports.insert = async (req, res) => {
+    const { country_id, year, population, gdp } = req.body;
+    try {
+        const result = await stats.insert(country_id, year, population, gdp);
+        res.status(201).json(result);
+    } catch (error) {
+        console.error("Error al insertar las estadísticas del país:", error);
+        res.status(500).json({ error: "Error al insertar las estadísticas del país" });
+    }
+}
+
+exports.update = async (req, res) => {
+    const { country_id, year } = req.params;
+    const { population, gdp } = req.body;
+    try {
+        const existing = await stats.getById(country_id, year);
+        if (!existing || existing.length === 0) {
+            return res.status(404).json({ error: "Registro no encontrado" });
+        }
+        const result = await stats.update(population, gdp, country_id, year);
         res.status(200).json(result);
     } catch (error) {
         console.error("Error al actualizar las estadísticas del país:", error);
@@ -13,14 +39,15 @@ exports.update = async (req, res) => {
 }
 
 exports.delete = async (req, res) => {
-    const { idCountry, year } = req.params;
+    const { country_id, year } = req.params;
     try {
-        const result = await stats.deleteCountryStats(idCountry, year);
+        const existing = await stats.getById(country_id, year);
+        if (!existing || existing.length === 0) {
+            return res.status(404).json({ error: "Registro no encontrado" });
+        }
+        const result = await stats.delete(country_id, year);
         res.status(200).json(result);
     } catch (error) {
-        if (error.errno === 1451) {
-            return res.status(400).json({ error: "No se puede eliminar el país porque tiene estadísticas asociadas" });
-        }
         console.error("Error al eliminar las estadísticas del país:", error);
         res.status(500).json({ error: "Error al eliminar las estadísticas del país" });
     }

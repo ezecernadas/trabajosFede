@@ -1,6 +1,10 @@
 const db = require('../config/db.js');
 
 // <--------- Get --------->
+exports.getById = async (country_id) => {
+    const [result] = await db.query('SELECT * FROM `countries` WHERE country_id = ?', [country_id]);
+    return result;
+}
 
 exports.getAll = async () => {
     const [result] = await db.query('SELECT * FROM `countries`');
@@ -59,37 +63,30 @@ exports.insert = async (name, area, national_day, country_code2, country_code3, 
     return result;
 }
 
-// <--------- Update --------->
 /**
- * Update a country by ID after validating existence.
+ * Updates a country's information in the database by its ID.
  * @param {number} country_id - The ID of the country to update.
- * @param {object} data - The fields to update (name, area, national_day, country_code2, country_code3, region_id).
- * @returns {Promise.<Object>} The result of the update or null if not found.
+ * @param {Object} data - The fields to update (name, area, national_day, country_code2, country_code3, region_id).
+ * @returns {Promise.<Object|null>} The result of the update query or null if the country does not exist.
  */
+
 exports.update = async (country_id, data) => {
     // Check if the country exists
     const [rows] = await db.query('SELECT country_id FROM countries WHERE country_id = ?', [country_id]);
     if (rows.length === 0) {
         return null;
     }
-    // Build dynamic query
-    const fields = [];
-    const values = [];
-    for (const key of ['name', 'area', 'national_day', 'country_code2', 'country_code3', 'region_id']) {
-        if (data[key] !== undefined) {
-            fields.push(`${key} = ?`);
-            values.push(data[key]);
-        }
-    }
-    if (fields.length === 0) {
-        return null;
-    }
-    values.push(country_id);
+
+    const { name, area, national_day, country_code2, country_code3, region_id } = data;
     const [result] = await db.query(
-        `UPDATE countries SET ${fields.join(', ')} WHERE country_id = ?`,
-        values
+        `UPDATE countries SET name = ?, area = ?, national_day = ?, country_code2 = ?, country_code3 = ?, region_id = ? WHERE country_id = ?`,
+        [name, area, national_day, country_code2, country_code3, region_id, country_id]
     );
     return result;
 }
 
 // <--------- Delete --------->
+exports.delete = async (country_id) => {
+    const [result] = await db.query('DELETE FROM `countries` WHERE country_id = ?', [country_id]);
+    return result;
+}

@@ -1,5 +1,10 @@
 const db = require('../config/db.js');
 
+exports.getById = async (language_id) => {
+    const [rows] = await db.query('SELECT * FROM `languages` WHERE language_id = ?', [language_id]);
+    return rows;
+}
+
 exports.getAll = async () => {
     const [result] = await db.query('SELECT * FROM `languages`');
     return result;
@@ -15,8 +20,17 @@ exports.getLanguagesByContinent = async (continent) => {
     return result;
 }
 
-
 exports.insert = async (language) => {
     const [result] = await db.query('INSERT INTO `languages`(`language`) VALUES (?)', [language]);
+    return result;
+}
+
+exports.update = async (language_id, language) => {
+    const [result] = await db.query('UPDATE `languages` SET language = ? WHERE language_id = ?', [language, language_id]);
+    return result;
+}
+
+exports.delete = async (language_id) => {
+    const [result] = await db.query('DELETE FROM `languages` WHERE language_id = ?', [language_id]);
     return result;
 }
