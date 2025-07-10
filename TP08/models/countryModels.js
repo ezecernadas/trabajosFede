@@ -1,5 +1,7 @@
 const db = require('../config/db.js');
 
+// <--------- Get --------->
+
 exports.getAll = async () => {
     const [result] = await db.query('SELECT * FROM `countries`');
     return result;
@@ -30,19 +32,64 @@ exports.getAllWithRegionAndArea = async () => {
     return result;
 }
 
-exports.getCountriesWithNationalDay = async () => {
+exports.getAllWithNationalDay = async () => {
     const [result] = await db.query('SELECT countries.name AS country, regions.name AS region, continents.name AS continent FROM countries JOIN regions ON countries.region_id = regions.region_id JOIN continents ON regions.continent_id = continents.continent_id WHERE countries.national_day IS NOT NULL;');
     return result;
 }
-
-
-exports.insert = async (name, area, national_day, country_code2, country_code3, region_id) => {
-    const [result] = await db.query('INSERT INTO `countries` (name, area, national_day, country_code2, country_code3, region_id) VALUES (?, ?, ?, ?, ?, ?)', [name, area, national_day, country_code2, country_code3, region_id]);
-    return result;
-}
-
 
 exports.getAllWithStats = async () => {
     const [result] = await db.query('SELECT countries.name AS country, `year`, `population`, `gdp` FROM `country_stats` INNER JOIN countries ON country_stats.country_id = countries.country_id; ');
     return result;
 }
+
+// <--------- Insert --------->
+
+/**
+ * Insert a new country into the database.
+ * @param {string} name - The name of the country.
+ * @param {number} area - The area of the country in square kilometers.
+ * @param {string} national_day - The national day of the country.
+ * @param {string} country_code2 - The two-letter country code.
+ * @param {string} country_code3 - The three-letter country code.
+ * @param {number} region_id - The id of the region this country belongs to.
+ * @returns {Promise.<Object>} The result of the query.
+ */
+exports.insert = async (name, area, national_day, country_code2, country_code3, region_id) => {
+    const [result] = await db.query('INSERT INTO `countries` (name, area, national_day, country_code2, country_code3, region_id) VALUES (?, ?, ?, ?, ?, ?)', [name, area, national_day, country_code2, country_code3, region_id]);
+    return result;
+}
+
+// <--------- Update --------->
+/**
+ * Update a country by ID after validating existence.
+ * @param {number} country_id - The ID of the country to update.
+ * @param {object} data - The fields to update (name, area, national_day, country_code2, country_code3, region_id).
+ * @returns {Promise.<Object>} The result of the update or null if not found.
+ */
+exports.update = async (country_id, data) => {
+    // Check if the country exists
+    const [rows] = await db.query('SELECT country_id FROM countries WHERE country_id = ?', [country_id]);
+    if (rows.length === 0) {
+        return null;
+    }
+    // Build dynamic query
+    const fields = [];
+    const values = [];
+    for (const key of ['name', 'area', 'national_day', 'country_code2', 'country_code3', 'region_id']) {
+        if (data[key] !== undefined) {
+            fields.push(`${key} = ?`);
+            values.push(data[key]);
+        }
+    }
+    if (fields.length === 0) {
+        return null;
+    }
+    values.push(country_id);
+    const [result] = await db.query(
+        `UPDATE countries SET ${fields.join(', ')} WHERE country_id = ?`,
+        values
+    );
+    return result;
+}
+
+// <--------- Delete --------->

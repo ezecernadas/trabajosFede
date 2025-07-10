@@ -3,13 +3,13 @@ const router = express.Router();
 const countryController = require('../controllers/countryController.js');
 
 router.get('/get/all', countryController.getAll);
-router.get('/get/all/language_and_regions', countryController.LanguageAndRegions);
-router.get('/get/all/continent', countryController.Continent);
-router.get('/get/all/regions', countryController.Regions);
-router.get('/get/all/stats', countryController.stats);
-router.get('/get/all/languages', countryController.languages);
-router.get('/get/all/area', countryController.area);
-router.get('/get/all/national_day', countryController.national_day);
+router.get('/get/all/language_and_regions', countryController.getAllWithLanguageAndRegions);
+router.get('/get/all/continent', countryController.getAllWithContinent);
+router.get('/get/all/regions', countryController.getAllWithRegions);
+router.get('/get/all/stats', countryController.getAllWithStats);
+router.get('/get/all/languages', countryController.getAllWithLanguages);
+router.get('/get/all/area', countryController.getAllWithRegionAndArea);
+router.get('/get/all/national_day', countryController.getAllWithNationalDay);
 
 router.post('/insert', countryController.insert);
 
