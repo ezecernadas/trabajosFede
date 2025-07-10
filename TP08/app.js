@@ -9,6 +9,7 @@ const regionsRoutes = require('./routes/regionsRoutes.js');
 const continentsRoutes = require('./routes/continentsRoutes.js');
 const countryLanguageRoutes = require('./routes/countryLanguageRoutes.js');
 const countryStatsRoutes = require('./routes/countryStatsRoutes.js');
+const regionAreasRoutes = require('./routes/regionAreasRoutes.js');
 
 api.use(express.json());
 api.use(checkAPK);
@@ -17,6 +18,7 @@ api.use('/api/country_languages', countryLanguageRoutes);
 api.use('/api/country_stats', countryStatsRoutes);
 api.use('/api/languages', languageRoutes);
 api.use('/api/regions', regionsRoutes);
+api.use('/api/region_areas', regionAreasRoutes);
 api.use('/api/continents', continentsRoutes);
 
 module.exports = api;

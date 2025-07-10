@@ -8,7 +8,7 @@ router.get('/get/all/count_regions', continentsController.countRegions);
 
 router.post('/insert', continentsController.insert);
 
-router.post('/update/:continent_id', continentsController.update);
+router.put('/update/:continent_id', continentsController.update);
 
 router.delete('/delete/:continent_id', continentsController.delete);
 

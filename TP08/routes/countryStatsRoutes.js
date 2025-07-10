@@ -6,7 +6,7 @@ router.get('/get/:country_id/:year', countryStatsController.getById);
 
 router.post('/insert', countryStatsController.insert);
 
-router.post('/update/:country_id/:year', countryStatsController.update);
+router.put('/update/:country_id/:year', countryStatsController.update);
 
 router.delete('/delete/:country_id/:year', countryStatsController.delete);
 

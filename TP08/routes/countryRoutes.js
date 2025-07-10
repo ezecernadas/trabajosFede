@@ -14,7 +14,7 @@ router.get('/get/all/national_day', countryController.getAllWithNationalDay);
 
 router.post('/insert', countryController.insert);
 
-router.post('/update/:country_id', countryController.update);
+router.put('/update/:country_id', countryController.update);
 
 router.delete('/delete/:country_id', countryController.delete);
 
