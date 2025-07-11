@@ -106,7 +106,7 @@ exports.insert = async (req, res) => {
     }
     const { name, area, national_day, country_code2, country_code3, region_id } = req.body;
     if (!name || !area || !national_day || !country_code2 || !country_code3 || !region_id) {
-        return res.status(400).json({ error: "Todos los campos son obligatorios" });
+        return res.status(400).json({ error: "Faltan campos obligatorios" });
     }
     try {
         const result = await country.insert(name, area, national_day, country_code2, country_code3, region_id);
@@ -129,7 +129,7 @@ exports.update = async (req, res) => {
     }
     const { name, area, national_day, country_code2, country_code3, region_id } = req.body;
     if (!name || !area || !national_day || !country_code2 || !country_code3 || !region_id) {
-        return res.status(400).json({ error: "Todos los campos son obligatorios" });
+        return res.status(400).json({ error: "Faltan campos obligatorios" });
     }
     try {
         const result = await country.update(country_id, { name, area, national_day, country_code2, country_code3, region_id });
