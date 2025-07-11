@@ -32,7 +32,7 @@ exports.getAllWithCountriesOficialLanguage = async (req, res) => {
 }
 
 exports.getLanguagesByContinent = async (req, res) => {
-    const { continent } = req.query;
+    const { continent } = req.params;
     try {
         const data = await languageModel.getLanguagesByContinent(continent);
         res.status(200).json(data);
