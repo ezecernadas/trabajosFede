@@ -4,145 +4,186 @@ const continentsController = require('../controllers/continentsController.js');
 
 /**
  * @swagger
- * /continents:
+ * tags:
+ *     name: Continentes
+ *     description: Endpoints para gerenciar continentes
+ */
+
+
+/** * @swagger
+ * /continents/get/all:
  *   get:
- *     summary: Obtiene todos los continentes
- *     tags:
- *       - Continents
+ *     summary: Retorna todos los continentes
+ *     tags: [Continentes]
  *     responses:
  *       200:
- *         description: Los continentes
+ *         description: Lista de continentes
  *         content:
  *           application/json:
  *             schema:
  *               type: array
  *               items:
- *                 $ref: '#/components/schemas/Continents'
+ *                 type: object
+ *                 properties:
+ *                   continent_id:
+ *                     type: integer
+ *                   name:
+ *                     type: string
+ *       500:
+ *         description: Error al obtener los continentes
  */
 router.get('/get/all', continentsController.getAll);
 
 /**
  * @swagger
- * /continents/{continent_id}:
+ * /continents/get/{continent_id}:
  *   get:
- *     summary: Obtiene un continente por ID
- *     tags:
- *       - Continents
+ *     summary: Retorna un continente por su ID
+ *     tags: [Continentes]
  *     parameters:
  *       - in: path
  *         name: continent_id
+ *         required: true
  *         schema:
  *           type: integer
- *         required: true
+ *         description: ID del continente
  *     responses:
  *       200:
- *         description: El continente
+ *         description: Continente encontrado
  *         content:
  *           application/json:
  *             schema:
- *               $ref: '#/components/schemas/Continents'
+ *               type: object
+ *               properties:
+ *                 continent_id:
+ *                   type: integer
+ *                 name:
+ *                   type: string
  *       404:
- *         description: No se encontr  el continente
+ *         description: Continente no encontrado	
+ *       500:
+ *         description: Error al obtener el continente
  */
 router.get('/get/:continent_id', continentsController.getById);
 
 /**
  * @swagger
- * /continents/all/count_regions:
+ * /continents/get/all/count_regions:
  *   get:
- *     summary: Obtiene el n mero de regiones por cada continente
- *     tags:
- *       - Continents
+ *     summary: Retorna la cantidad de regiones por continente
+ *     tags: [Continentes]
  *     responses:
  *       200:
- *         description: El n mero de regiones por cada continente
+ *         description: Cantidad de regiones por continente
  *         content:
  *           application/json:
  *             schema:
- *               type: array
- *               items:
- *                 $ref: '#/components/schemas/ContinentsCountRegions'
+ *               type: object
+ *               properties:
+ *                 continent_id:
+ *                   type: integer
+ *                 region_count:
+ *                   type: integer
+ *       500:
+ *         description: Error al obtener la cantidad de regiones
  */
 router.get('/get/all/count_regions', continentsController.countRegions);
 
-/**
- * @swagger
- * /continents:
+/** * @swagger
+ * /continents/insert:
  *   post:
- *     summary: Crea un nuevo continente
- *     tags:
- *       - Continents
+ *     summary: Inserta un nuevo continente
+ *     tags: [Continentes]
  *     requestBody:
  *       required: true
  *       content:
  *         application/json:
  *           schema:
- *             $ref: '#/components/schemas/Continents'
+ *             type: object
+ *             properties:
+ *               name:
+ *                 type: string
  *     responses:
  *       201:
- *         description: El nuevo continente
+ *         description: Continente insertado correctamente
  *         content:
  *           application/json:
  *             schema:
- *               $ref: '#/components/schemas/Continents'
- *       400:
- *         description: No se enviaron los datos requeridos
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                 id:
+ *                   type: integer
+ *       500:
+ *         description: Error al insertar el continente
  */
 router.post('/insert', continentsController.insert);
 
-/**
- * @swagger
- * /continents/{continent_id}:
+/** * @swagger
+ * /continents/update/{continent_id}:
  *   put:
- *     summary: Actualiza un continente
- *     tags:
- *       - Continents
+ *     summary: Actualiza un continente por su ID
+ *     tags: [Continentes]
  *     parameters:
  *       - in: path
  *         name: continent_id
+ *         required: true
  *         schema:
  *           type: integer
- *         required: true
+ *         description: ID del continente a actualizar
  *     requestBody:
  *       required: true
  *       content:
  *         application/json:
  *           schema:
- *             $ref: '#/components/schemas/Continents'
+ *             type: object
+ *             properties:
+ *               name:
+ *                 type: string
  *     responses:
  *       200:
- *         description: El continente actualizado
+ *         description: Continente actualizado correctamente
  *         content:
  *           application/json:
  *             schema:
- *               $ref: '#/components/schemas/Continents'
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
  *       404:
- *         description: No se encontr  el continente
+ *         description: Continente no encontrado	
+ *       500:
+ *         description: Error al actualizar el continente
  */
 router.put('/update/:continent_id', continentsController.update);
 
-/**
- * @swagger
- * /continents/{continent_id}:
+/** * @swagger
+ * /continents/delete/{continent_id}:
  *   delete:
- *     summary: Elimina un continente
- *     tags:
- *       - Continents
+ *     summary: Elimina un continente por su ID
+ *     tags: [Continentes]
  *     parameters:
  *       - in: path
  *         name: continent_id
+ *         required: true
  *         schema:
  *           type: integer
- *         required: true
+ *         description: ID del continente a eliminar
  *     responses:
  *       200:
- *         description: El continente eliminado
+ *         description: Continente eliminado correctamente
  *         content:
  *           application/json:
  *             schema:
- *               $ref: '#/components/schemas/Continents'
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
  *       404:
- *         description: No se encontr  el continente
+ *         description: Continente no encontrado	
+ *       500:
+ *         description: Error al eliminar el continente
  */
 router.delete('/delete/:continent_id', continentsController.delete);
 
