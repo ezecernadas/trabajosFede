@@ -11,13 +11,13 @@ const countryLanguageController = require('../controllers/countryLanguageControl
 
 /**
  * @swagger
- * /country_languages/get/all:
+ * /country_languages/get/{country_id}:
  *   get:
- *     summary: Retorna todos los idiomas de países
+ *     summary: Retorna un idioma por su ID de país
  *     tags: [Idiomas de Países]
  *     responses:
  *       200:
- *         description: Lista de idiomas de países
+ *         description: Idioma de país encontrado
  *         content:
  *           application/json:
  *             schema:
@@ -31,8 +31,10 @@ const countryLanguageController = require('../controllers/countryLanguageControl
  *                     type: integer
  *                   official:
  *                     type: boolean
+ *       404:
+ *         description: Idioma de país no encontrado
  *       500:
- *         description: Error al obtener los idiomas de países
+ *         description: Error al obtener el idioma del país
  */
 router.get('/get/:country_id', countryLanguageController.getById);
 
